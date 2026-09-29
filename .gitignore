@@ -1,0 +1,30 @@
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Virtual environments
+.venv/
+venv/
+
+# IDE
+.idea/
+.vscode/
+
+# Secrets
+.env
+
+# Large datasets
+data/disk_failure_v2.csv
+data/google_job_failure_g2.csv
+
+# Outputs
+logs/
+outputs/
+results/
+checkpoints/
+
+# Model files
+*.pt
+*.pth
+*.ckpt

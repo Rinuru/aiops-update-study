@@ -1,0 +1,216 @@
+{
+  "schema_version": "maintenance-hparam-transition-v1",
+  "config_version": "backblaze-maintenance-v1",
+  "dataset": "backblaze",
+  "objective": "joint_model_retraining_and_hyperparameter_update",
+  "parameter_policy": "initial_to_maintenance",
+  "reference_periods": [
+    1,
+    18
+  ],
+  "evaluation_periods": [
+    19,
+    36
+  ],
+  "feature_mode": "numeric_only",
+  "feature_view": "base",
+  "timing": {
+    "initial_config_applies_to": "initial fit and all stationary predictions",
+    "update_config_applies_to": "every periodic or drift-triggered refit",
+    "update_detected_in_period_t_becomes_effective_in": "period_t_plus_1",
+    "stationary_switches_to_update_config": false
+  },
+  "common": {
+    "max_train_samples": 50000,
+    "calibration_samples": 20000,
+    "sampling_pool_size": 120000
+  },
+  "models": {
+    "if": {
+      "model_name": "if_maintenance_v1",
+      "initial_candidate_id": "initial_v1",
+      "update_candidate_id": "maintenance_v1",
+      "initial_config": {
+        "base_model": "if",
+        "n_estimators": 50,
+        "max_samples": 128,
+        "max_features": 1.0,
+        "bootstrap": false,
+        "n_jobs": 1,
+        "max_train_samples": 50000,
+        "scaler": "none",
+        "feature_view": "base"
+      },
+      "update_config": {
+        "base_model": "if",
+        "n_estimators": 300,
+        "max_samples": 4096,
+        "max_features": 1.0,
+        "bootstrap": false,
+        "n_jobs": 1,
+        "max_train_samples": 50000,
+        "scaler": "none",
+        "feature_view": "base"
+      }
+    },
+    "pca": {
+      "model_name": "pca_maintenance_v1",
+      "initial_candidate_id": "initial_v1",
+      "update_candidate_id": "maintenance_v1",
+      "initial_config": {
+        "base_model": "pca",
+        "n_components": 2,
+        "score_mode": "standardized_mse",
+        "max_train_samples": 50000,
+        "scaler": "robust",
+        "feature_view": "base"
+      },
+      "update_config": {
+        "base_model": "pca",
+        "n_components": 0.95,
+        "score_mode": "standardized_mse",
+        "max_train_samples": 50000,
+        "scaler": "robust",
+        "feature_view": "base"
+      }
+    },
+    "ae": {
+      "model_name": "ae_maintenance_v1",
+      "initial_candidate_id": "initial_v1",
+      "update_candidate_id": "maintenance_v1",
+      "initial_config": {
+        "base_model": "ae",
+        "hidden_dims": [
+          8
+        ],
+        "latent_dim": 2,
+        "activation": "relu",
+        "dropout": 0.0,
+        "epochs": 20,
+        "batch_size": 1024,
+        "learning_rate": 0.001,
+        "weight_decay": 0.00001,
+        "gradient_clip": 5.0,
+        "score_mode": "mse",
+        "device": "auto",
+        "max_train_samples": 50000,
+        "scaler": "standard",
+        "feature_view": "base"
+      },
+      "update_config": {
+        "base_model": "ae",
+        "hidden_dims": [
+          32,
+          16
+        ],
+        "latent_dim": 16,
+        "activation": "relu",
+        "dropout": 0.0,
+        "epochs": 20,
+        "batch_size": 1024,
+        "learning_rate": 0.001,
+        "weight_decay": 0.00001,
+        "gradient_clip": 5.0,
+        "score_mode": "mse",
+        "device": "auto",
+        "max_train_samples": 50000,
+        "scaler": "standard",
+        "feature_view": "base"
+      }
+    },
+    "deep_svdd": {
+      "model_name": "deep_svdd_maintenance_v1",
+      "initial_candidate_id": "initial_v1",
+      "update_candidate_id": "maintenance_v1",
+      "initial_config": {
+        "base_model": "deep_svdd",
+        "hidden_dims": [
+          8
+        ],
+        "latent_dim": 2,
+        "activation": "leaky_relu",
+        "pretrain_epochs": 10,
+        "epochs": 10,
+        "batch_size": 1024,
+        "pretrain_learning_rate": 0.001,
+        "learning_rate": 0.001,
+        "weight_decay": 0.000001,
+        "gradient_clip": 5.0,
+        "center_epsilon": 0.1,
+        "device": "auto",
+        "max_train_samples": 50000,
+        "scaler": "standard",
+        "feature_view": "base"
+      },
+      "update_config": {
+        "base_model": "deep_svdd",
+        "hidden_dims": [
+          32,
+          16
+        ],
+        "latent_dim": 16,
+        "activation": "leaky_relu",
+        "pretrain_epochs": 10,
+        "epochs": 10,
+        "batch_size": 1024,
+        "pretrain_learning_rate": 0.001,
+        "learning_rate": 0.001,
+        "weight_decay": 0.000001,
+        "gradient_clip": 5.0,
+        "center_epsilon": 0.1,
+        "device": "auto",
+        "max_train_samples": 50000,
+        "scaler": "standard",
+        "feature_view": "base"
+      }
+    },
+    "neutral_ad": {
+      "model_name": "neutral_ad_maintenance_v1",
+      "initial_candidate_id": "initial_v1",
+      "update_candidate_id": "maintenance_v1",
+      "initial_config": {
+        "base_model": "neutral_ad",
+        "hidden_dims": [
+          8
+        ],
+        "latent_dim": 2,
+        "activation": "relu",
+        "num_transforms": 11,
+        "transform_hidden_dim": 8,
+        "transform_depth": 2,
+        "temperature": 0.1,
+        "epochs": 20,
+        "batch_size": 512,
+        "learning_rate": 0.001,
+        "weight_decay": 0.00001,
+        "gradient_clip": 5.0,
+        "device": "auto",
+        "max_train_samples": 50000,
+        "scaler": "standard",
+        "feature_view": "base"
+      },
+      "update_config": {
+        "base_model": "neutral_ad",
+        "hidden_dims": [
+          64,
+          32
+        ],
+        "latent_dim": 16,
+        "activation": "relu",
+        "num_transforms": 11,
+        "transform_hidden_dim": 64,
+        "transform_depth": 3,
+        "temperature": 0.1,
+        "epochs": 20,
+        "batch_size": 512,
+        "learning_rate": 0.001,
+        "weight_decay": 0.00001,
+        "gradient_clip": 5.0,
+        "device": "auto",
+        "max_train_samples": 50000,
+        "scaler": "standard",
+        "feature_view": "base"
+      }
+    }
+  }
+}

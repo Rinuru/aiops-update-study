@@ -1,0 +1,106 @@
+{
+  "schema_version": 2,
+  "config_version": "google_model_config_v2_20260829",
+  "status": "PREDECLARED_FOR_FORMAL_MAINTENANCE_EXPERIMENTS",
+  "dataset": "google",
+  "configuration_policy": "Predeclared on P1-P14; P15-P28 evaluation-only.",
+  "models": {
+    "if": {
+      "model_name": "if_e500_ms16384_mf1p0_n100000_scnone_bs0",
+      "config": {
+        "base_model": "if",
+        "n_estimators": 500,
+        "max_samples": 16384,
+        "max_features": 1.0,
+        "max_train_samples": 100000,
+        "scaler": "none",
+        "bootstrap": false,
+        "n_jobs": 1,
+        "feature_view": "augmented"
+      }
+    },
+    "pca": {
+      "model_name": "pca_nc30_n25000_scstandard_scorestandardized_mse",
+      "config": {
+        "base_model": "pca",
+        "n_components": 30,
+        "max_train_samples": 25000,
+        "scaler": "standard",
+        "score_mode": "standardized_mse",
+        "feature_view": "augmented"
+      }
+    },
+    "ae": {
+      "model_name": "ae_g_final_z16_e20_h128_64_mse_base",
+      "config": {
+        "base_model": "ae",
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "latent_dim": 16,
+        "activation": "relu",
+        "dropout": 0.0,
+        "epochs": 20,
+        "batch_size": 1024,
+        "learning_rate": 0.001,
+        "weight_decay": 1e-05,
+        "gradient_clip": 5.0,
+        "score_mode": "mse",
+        "device": "auto",
+        "max_train_samples": 50000,
+        "scaler": "standard",
+        "feature_view": "base"
+      }
+    },
+    "deep_svdd": {
+      "model_name": "deep_svdd_g_final_h128_64_z16_pre5_e10",
+      "config": {
+        "base_model": "deep_svdd",
+        "hidden_dims": [
+          128,
+          64
+        ],
+        "latent_dim": 16,
+        "activation": "leaky_relu",
+        "pretrain_epochs": 5,
+        "epochs": 10,
+        "batch_size": 1024,
+        "pretrain_learning_rate": 0.001,
+        "learning_rate": 0.001,
+        "weight_decay": 1e-06,
+        "gradient_clip": 5.0,
+        "center_epsilon": 0.1,
+        "device": "auto",
+        "max_train_samples": 50000,
+        "scaler": "standard",
+        "feature_view": "base"
+      }
+    },
+    "neutral_ad": {
+      "model_name": "neutral_ad_g_final_k7_z16_e20",
+      "config": {
+        "base_model": "neutral_ad",
+        "hidden_dims": [
+          64,
+          32
+        ],
+        "latent_dim": 16,
+        "activation": "relu",
+        "num_transforms": 7,
+        "transform_hidden_dim": 64,
+        "transform_depth": 3,
+        "temperature": 0.1,
+        "epochs": 20,
+        "batch_size": 512,
+        "learning_rate": 0.001,
+        "weight_decay": 1e-05,
+        "gradient_clip": 5.0,
+        "device": "auto",
+        "max_train_samples": 50000,
+        "scaler": "standard",
+        "feature_view": "base"
+      }
+    }
+  }
+}

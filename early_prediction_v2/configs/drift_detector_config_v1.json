@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "config_version": "drift_detector_config_v1_20260829",
+  "status": "PREDECLARED_FOR_FORMAL_MAINTENANCE_EXPERIMENTS",
+  "scope": {
+    "confirm_consecutive": 1,
+    "cooldown_periods": 0,
+    "seed_mode": "experiment",
+    "drift_feature_view": "augmented"
+  },
+  "detectors": {
+    "kswin": {
+      "implementation": "validated_KSWIN_C01",
+      "implementation_version": "c01-stableseed-v2-20260829",
+      "alpha": 0.005,
+      "window_size": 100,
+      "stat_size": 30,
+      "samples_per_period": 30,
+      "pca_variance": 0.95,
+      "projection": "StandardScaler+PCA95+PC_score_L2_norm",
+      "stream_based": true,
+      "reset_on_downstream_retrain": false
+    },
+    "lsdd": {
+      "implementation": "alibi_detect.cd.LSDDDrift",
+      "backend": "pytorch",
+      "p_val": 0.01,
+      "max_samples": 500,
+      "n_kernel_centers": 50,
+      "n_permutations": 100,
+      "lambda_rd_max": 0.2,
+      "device": "cpu"
+    },
+    "kdqtree": {
+      "implementation": "menelaus.data_drift.KdqTreeBatch",
+      "alpha": 0.01,
+      "max_samples": 500,
+      "count_ubound": 200,
+      "bootstrap_samples": 500,
+      "cutpoint_proportion_lbound": 2e-10
+    },
+    "d3": {
+      "implementation": "original_style_sample_stream",
+      "window_size": 50,
+      "rho": 0.1,
+      "auc_threshold": 0.75,
+      "cv_folds": 2,
+      "C": 1.0,
+      "max_iter": 300,
+      "samples_per_period": 30,
+      "stream_based": true
+    },
+    "dawidd": {
+      "implementation": "dynamic_window_independence",
+      "independence_test": "scipy_multiscale_graphcorr",
+      "max_window_size": 120,
+      "min_window_size": 50,
+      "p_value_threshold": 0.005,
+      "samples_per_period": 30,
+      "permutations": 1000,
+      "workers": 1,
+      "stream_based": true
+    }
+  }
+}
